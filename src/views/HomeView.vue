@@ -3,42 +3,31 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { RouterLink, useRouter } from 'vue-router'
 const router = useRouter()
-import { Facebook, Twitter, Youtube } from 'lucide-vue-next'
+import { Facebook, Loader, Loader2, Twitter, Youtube } from 'lucide-vue-next'
 import heroImage from '../assets/background1920.png'
 const isMenuOpen = ref(false)
 const lrn = ref('')
 const password = ref('')
 const loginError = ref(null)
+const isLoading = ref(false)
 
 async function login() {
-
-  axios.post('/https://ndparang.info/api/v1/uri/login', {
-        lrn: lrn.value,
-        password: password.value
-  })
-  .then(function (response) {
-    console.log(response);
-    //     localStorage.setItem('access_token', response.data.accessToken)
-    // localStorage.setItem('refresh_token', response.data.refreshToken)
-    // router.push('/profile')
-  })
-  .catch(function (error) {
-    console.log(error);
-    loginError.value = error.response.data.error.message
-  });
-
-  try {
-    const response = await axios.post(
-      'https://ndparang.info/api/v1/uri/login',
-      {
-        lrn: lrn.value,
-        password: password.value
-      }
-    )
-
-  } catch (error) {
-    
-  }
+  isLoading.value = true
+  axios
+    .post('https://ndcotabato.info/api/v1/uri/login', {
+      lrn: lrn.value,
+      password: password.value
+    })
+    .then(function (response) {
+      localStorage.setItem('access_token', response.data.accessToken)
+      localStorage.setItem('refresh_token', response.data.refreshToken)
+      router.push('/profile')
+      isLoading.value = false
+    })
+    .catch(function (error) {
+      loginError.value = error.response.data.error.message
+      isLoading.value = false
+    })
 }
 </script>
 <template>
@@ -46,10 +35,10 @@ async function login() {
     <nav class="bg-gray-900 fixed top-0 w-full z-10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-20">
-          <img src="@/assets/ndparang_logo.png" class="h-14 mr-3" alt="logo" />
+          <img src="@/assets/logo.png" class="h-14 mr-3" alt="logo" />
           <div class="flex-shrink-0">
             <a href="#" class="text-white font-semibold text-xl"
-              >Notre Dame of Parang Inc.</a
+              >Notre Dame of Cotabato</a
             >
           </div>
           <!-- Mobile menu toggle -->
@@ -94,23 +83,23 @@ async function login() {
             <div class="flex space-x-4">
               <a
                 href="#"
-                class="text-[#00923f] hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium"
+                class="text-[#1C1AAB] hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
                 >Home</a
               >
               <a
-                href="https://alumni.ndparang.info"
+                href="https://alumni.ndcotabato.info"
                 target="_blank"
-                class="text-gray-300 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium"
+                class="text-gray-300 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
                 >Alumni</a
               >
               <a
                 href="#"
-                class="text-gray-300 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium"
+                class="text-gray-300 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
                 >About</a
               >
               <a
                 href="#"
-                class="text-gray-300 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium"
+                class="text-gray-300 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
                 >Contact us</a
               >
             </div>
@@ -121,7 +110,7 @@ async function login() {
               type="button"
               class="inline-flex items-center font-medium justify-center px-1 py-1 mr-4 bg-white rounded-full text-sm text-gray-900 dark:text-white cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
             >
-              <a href="https://www.facebook.com/ndparanginc/" target="_blank">
+              <a href="https://www.facebook.com/NDCotabato/" target="_blank">
                 <Facebook color="black" :size="24" />
               </a>
             </button>
@@ -129,7 +118,7 @@ async function login() {
               type="button"
               class="inline-flex items-center font-medium justify-center px-1 py-1 mr-4 bg-white rounded-full text-sm text-gray-900 dark:text-white cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
             >
-              <a href="https://www.facebook.com/ndparanginc/" target="_blank">
+              <a href="https://www.facebook.com/NDCotabato/" target="_blank">
                 <Twitter color="black" :size="24" />
               </a>
             </button>
@@ -137,7 +126,7 @@ async function login() {
               type="button"
               class="inline-flex items-center font-medium justify-center px-1 py-1 bg-white rounded-full text-sm text-gray-900 dark:text-white cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
             >
-              <a href="https://www.facebook.com/ndparanginc/" target="_blank">
+              <a href="https://www.facebook.com/NDCotabato/" target="_blank">
                 <Youtube color="black" :size="24" />
               </a>
             </button>
@@ -155,22 +144,22 @@ async function login() {
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               <a
                 href="#"
-                class="text-[#00923f] hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium"
+                class="text-[#1C1AAB] hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
                 >Home</a
               >
               <a
-                href="https://alumni.ndparang.info"
-                class="text-gray-300 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium"
+                href="https://alumni.ndcotabato.info"
+                class="text-gray-300 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
                 >Alumni</a
               >
               <a
                 href="#"
-                class="text-gray-300 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium"
+                class="text-gray-300 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
                 >About</a
               >
               <a
                 href="#"
-                class="text-gray-300 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium"
+                class="text-gray-300 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
                 >Contact us</a
               >
             </div>
@@ -233,13 +222,13 @@ async function login() {
             <div
               class="flex place-content-center md:place-content-start mt-10 md:mt-10"
             >
-              <router-link to="/register">
+              <!-- <router-link to="/register">
                 <button
-                  class="bg-[#00923f] hover:bg-green-600 text-white font-bold text-lg py-2 px-4 w-60 h-16 rounded-full"
+                  class="bg-[#1C1AAB] hover:bg-blue-600 text-white font-bold text-lg py-2 px-4 w-60 h-16 rounded-full"
                 >
                   Pre-Enroll Now!
                 </button>
-              </router-link>
+              </router-link> -->
             </div>
           </div>
           <!-- Login form -->
@@ -263,15 +252,16 @@ async function login() {
                     <label
                       for="lrn"
                       class="block mb-2 text-sm font-medium text-gray-900"
-                      >Your lrn</label
+                      >Your LRN</label
                     >
                     <input
                       v-model="lrn"
+                      @keyup.enter="login"
                       type="text"
                       name="lrn"
                       id="lrn"
                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                      placeholder="ex.00-000-000-00"
+                      placeholder="000000000000"
                       required=""
                     />
                   </div>
@@ -283,6 +273,7 @@ async function login() {
                     >
                     <input
                       v-model="password"
+                      @keyup.enter="login"
                       type="password"
                       name="password"
                       id="password"
@@ -309,11 +300,11 @@ async function login() {
                       </div>
                     </div>
                     <router-link to="/password_reset">
-                      <button
-                        class="text-sm font-medium text-primary-600 hover:underline hover:text-green-600"
+                      <a
+                        class="text-sm font-medium text-primary-600 hover:underline hover:text-blue-600"
                       >
                         Forgot password?
-                      </button>
+                      </a>
                     </router-link>
                   </div>
                   <p v-if="loginError" class="text-red-500 mt-1 mb-1 text-sm">
@@ -322,15 +313,20 @@ async function login() {
                   <button
                     type="button"
                     @click="login"
-                    class="w-full text-white bg-[#00923f] hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    class="flex justify-center items-center w-full text-white mt-2 bg-[#1C1AAB] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                   >
                     Sign in
+                    <Loader2
+                      v-if="isLoading"
+                      class="text-white ml-2 animate-spin"
+                      :size="20"
+                    />
                   </button>
                   <p class="text-sm font-light text-gray-500">
                     Don’t have an account yet?
                     <router-link
                       to="/register"
-                      class="font-medium text-primary-600 hover:underline hover:text-green-700"
+                      class="font-medium text-primary-600 hover:underline hover:text-blue-700"
                     >
                       Sign up
                     </router-link>

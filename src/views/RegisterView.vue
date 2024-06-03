@@ -64,7 +64,7 @@ const barangayOptions = ref([])
 onMounted(async () => {
   try {
     const response = await axios.get(
-      'https://ndparang.info/api/v1/uri/province',
+      'https://ndcotabato.info/api/v1/uri/province',
       {
         headers: {
           'Content-Type': 'application/json'
@@ -86,7 +86,7 @@ onMounted(async () => {
 async function getMunicipality() {
   try {
     const response = await axios.post(
-      'https://ndparang.info/api/v1/uri/municipality',
+      'https://ndcotabato.info/api/v1/uri/municipality',
       {
         province: province.value,
         headers: {
@@ -105,7 +105,7 @@ async function getMunicipality() {
 async function getBarangay() {
   try {
     const response = await axios.post(
-      'https://ndparang.info/api/v1/uri/barangay',
+      'https://ndcotabato.info/api/v1/uri/barangay',
       {
         municipality: municipality.value,
         headers: {
@@ -335,7 +335,7 @@ async function register() {
 
     await delay(1500)
     const response = await axios.post(
-      'https://ndparang.info/api/v1/uri/register',
+      'https://ndcotabato.info/api/v1/uri/register',
       {
         lrn: lrn.value,
         password: password.value,
@@ -450,20 +450,20 @@ function shootConfetti() {
         ></div>
         <div class="absolute inset-0 flex flex-col items-center">
           <img
-            src="@/assets/ndparang_logo.png"
+            src="@/assets/logo.png"
             class="h-20 md:h-24 mt-5 md:mt-5"
             alt="logo"
           />
           <a
             href="#"
             class="hidden md:block text-white font-semibold text-2xl mt-2"
-            >Notre Dame of Parang Inc.</a
+            >Notre Dame of Cotabato</a
           >
           <div class="flex justify-center mt-5 md:mt-8">
             <div v-if="currentStep === 1">
               <button
                 @click="validateSteps"
-                class="w-10 h-10 rounded-full text-white mx-2 bg-[#8CB369] hover:bg-[#96CB66]"
+                class="w-10 h-10 rounded-full text-white mx-2 bg-[#1C1AAB] hover:bg-blue-600"
               >
                 1
               </button>
@@ -488,7 +488,7 @@ function shootConfetti() {
             <div v-if="currentStep === 2">
               <button
                 @click="validateSteps"
-                class="w-10 h-10 rounded-full text-white mx-2 bg-[#8CB369] hover:bg-[#96CB66]"
+                class="w-10 h-10 rounded-full text-white mx-2 bg-[#1C1AAB] hover:bg-blue-600"
               >
                 2
               </button>
@@ -513,7 +513,7 @@ function shootConfetti() {
             <div v-if="currentStep === 3">
               <button
                 @click="validateSteps"
-                class="w-10 h-10 rounded-full text-white mx-2 bg-[#8CB369] hover:bg-[#96CB66]"
+                class="w-10 h-10 rounded-full text-white mx-2 bg-[#1C1AAB] hover:bg-blue-600"
               >
                 3
               </button>
@@ -538,7 +538,7 @@ function shootConfetti() {
             <div v-if="currentStep === 4">
               <button
                 @click="validateSteps"
-                class="w-10 h-10 rounded-full text-white mx-2 bg-[#8CB369] hover:bg-[#96CB66]"
+                class="w-10 h-10 rounded-full text-white mx-2 bg-[#1C1AAB] hover:bg-blue-600"
               >
                 4
               </button>
@@ -563,7 +563,7 @@ function shootConfetti() {
             <div v-if="currentStep === 5">
               <button
                 @click="validateSteps"
-                class="w-10 h-10 rounded-full text-white mx-2 bg-[#8CB369] hover:bg-[#96CB66]"
+                class="w-10 h-10 rounded-full text-white mx-2 bg-[#1C1AAB] hover:bg-blue-600"
               >
                 5
               </button>
@@ -1268,9 +1268,9 @@ function shootConfetti() {
                 You can review the information you
                 <br />
                 provided by clicking the
-                <span class="text-[#8CB369]">previous</span> button.
+                <span class="text-[#1C1AAB]">previous</span> button.
               </h2>
-              <p class="text-[#8CB369] text-center mt-4 px-2 w-full">
+              <p class="text-[#1C1AAB] text-center mt-4 px-2 w-full">
                 By clicking the proceed button, You hereby declare that the
                 information you provided is true and correct.
               </p>
@@ -1294,7 +1294,7 @@ function shootConfetti() {
             <div v-if="currentStep < 5">
               <button
                 @click="validateSteps"
-                class="w-40 bg-[#8CB369] hover:bg-[#96CB66] text-white font-normal py-2.5 rounded-md flex items-center place-content-center self-end"
+                class="w-40 bg-[#1C1AAB] hover:bg-blue-600 text-white font-normal py-2.5 rounded-md flex items-center place-content-center self-end"
               >
                 <span>Next</span>
                 <ArrowRight class="w-4 h-4 ml-2" />
@@ -1303,7 +1303,7 @@ function shootConfetti() {
             <div v-if="currentStep === 5">
               <button
                 @click="register"
-                class="w-40 bg-[#8CB369] hover:bg-[#96CB66] text-white font-normal py-2.5 rounded-md flex items-center place-content-center"
+                class="w-40 bg-[#1C1AAB] hover:bg-blue-600 text-white font-normal py-2.5 rounded-md flex items-center place-content-center"
               >
                 <span>Proceed</span>
                 <Check class="w-4 h-4 ml-2" />
@@ -1314,7 +1314,7 @@ function shootConfetti() {
             <div
               class="text-slate-400 text-center flex justify-center py-2 md:py-6"
             >
-              © {{ year }} Notre Dame of Parang Inc.
+              © {{ year }} Notre Dame of Cotabato
             </div>
           </div>
         </div>
@@ -1330,23 +1330,23 @@ function shootConfetti() {
         ></div>
         <div class="absolute inset-0 flex flex-col items-center">
           <img
-            src="@/assets/ndparang_logo.png"
+            src="@/assets/logo.png"
             class="h-20 md:h-24 mt-5 md:mt-12"
             alt="logo"
           />
           <a href="#" class="md:block text-white font-semibold text-lg mt-2"
-            >Notre Dame of Parang Inc.</a
+            >Notre Dame of Cotabato</a
           >
           <span class="relative flex h-10 w-10 mt-10">
             <span
-              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#96CB66] opacity-75"
+              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-600 opacity-75"
             ></span>
             <span
-              class="relative inline-flex rounded-full h-10 w-10 bg-[#8CB369]"
+              class="relative inline-flex rounded-full h-10 w-10 bg-[#1C1AAB]"
             ></span>
           </span>
           <h2
-            class="text-xl md:text-2xl font-bold text-[#8CB369] text-center px-2 mt-8"
+            class="text-xl md:text-2xl font-bold text-[#1C1AAB] text-center px-2 mt-8"
           >
             processing...
           </h2>
@@ -1355,7 +1355,7 @@ function shootConfetti() {
           <div
             class="text-slate-400 text-center flex justify-center py-2 md:py-6"
           >
-            © {{ year }} Notre Dame of Parang Inc.
+            © {{ year }} Notre Dame of Cotabato
           </div>
         </div>
       </div>
@@ -1370,12 +1370,12 @@ function shootConfetti() {
         ></div>
         <div class="absolute inset-0 flex flex-col items-center">
           <img
-            src="@/assets/ndparang_logo.png"
+            src="@/assets/logo.png"
             class="h-20 md:h-24 mt-5 md:mt-10"
             alt="logo"
           />
           <a href="#" class="md:block text-white font-semibold text-lg mt-2"
-            >Notre Dame of Parang Inc.</a
+            >Notre Dame of Cotabato</a
           >
           <img class="mt-20 w-28" src="@/assets/conflict.svg" />
           <h2
@@ -1389,7 +1389,7 @@ function shootConfetti() {
             Login using your existing credentials to access your profile.
           </p>
           <button
-            class="w-40 bg-[#8CB369] hover:bg-[#96CB66] text-white font-normal py-2.5 px-4 rounded-md flex items-center place-content-center mt-10"
+            class="w-40 bg-[#1C1AAB] hover:bg-blue-600 text-white font-normal py-2.5 px-4 rounded-md flex items-center place-content-center mt-10"
           >
             <router-link to="/"><span>Login</span></router-link>
           </button>
@@ -1398,7 +1398,7 @@ function shootConfetti() {
           <div
             class="text-slate-400 text-center flex justify-center py-2 md:py-6"
           >
-            © {{ year }} Notre Dame of Parang Inc.
+            © {{ year }} Notre Dame of Cotabato
           </div>
         </div>
       </div>
@@ -1413,19 +1413,19 @@ function shootConfetti() {
         ></div>
         <div class="absolute inset-0 flex flex-col items-center">
           <img
-            src="@/assets/ndparang_logo.png"
+            src="@/assets/logo.png"
             class="h-20 md:h-24 mt-5 md:mt-10"
             alt="logo"
           />
           <a href="#" class="md:block text-white font-semibold text-lg mt-2"
-            >Notre Dame of Parang Inc.</a
+            >Notre Dame of Cotabato</a
           >
           <div class="absolute">
             <canvas ref="canvas" class="confetti-canvas"></canvas>
           </div>
           <img class="mt-20 w-28" src="@/assets/success.svg" />
           <h2
-            class="text-2xl md:text-2xl font-bold text-[#8CB369] text-center px-2 mt-8"
+            class="text-2xl md:text-2xl font-bold text-[#1C1AAB] text-center px-2 mt-8"
           >
             Registration Success!
           </h2>
@@ -1435,7 +1435,7 @@ function shootConfetti() {
             You can now login to your profile.
           </p>
           <button
-            class="w-40 bg-[#8CB369] hover:bg-[#96CB66] text-white font-normal py-2.5 px-4 rounded-md flex items-center place-content-center mt-10"
+            class="w-40 bg-[#1C1AAB] hover:bg-blue-600 text-white font-normal py-2.5 px-4 rounded-md flex items-center place-content-center mt-10"
           >
             <router-link to="/"><span>Login</span></router-link>
           </button>
@@ -1444,7 +1444,7 @@ function shootConfetti() {
           <div
             class="text-slate-400 text-center flex justify-center py-2 md:py-6"
           >
-            © {{ year }} Notre Dame of Parang Inc.
+            © {{ year }} Notre Dame of Cotabato
           </div>
         </div>
       </div>
@@ -1454,10 +1454,10 @@ function shootConfetti() {
     >
       <a href="#" class="text-slate-400 font-normal text-base">
         <router-link to="/">
-          <div class="flex flex-row items-center hover:text-[#8CB369]">
+          <div class="flex flex-row items-center hover:text-[#1C1AAB]">
             <ArrowLeft class="w-8 h-8 md:w-6 md:h-6 mr-2" />
             <span
-              class="hidden md:inline-block text-slate-400 hover:text-[#8CB369] font-normal text-sm"
+              class="hidden md:inline-block text-slate-400 hover:text-[#1C1AAB] font-normal text-sm"
             >
               Back to login
             </span>

@@ -26,7 +26,7 @@ async function reset_password() {
   } else {
     try {
       const response = await axios.patch(
-        'https://ndparang.info/api/v1/uri/reset_password',
+        'https://ndcotabato.info/api/v1/uri/reset_password',
         {
           lrn: lrn.value
         }
@@ -47,7 +47,7 @@ async function confirm_code() {
   } else {
     try {
       const response = await axios.post(
-        'https://ndparang.info/api/v1/uri/confirm_code',
+        'https://ndcotabato.info/api/v1/uri/confirm_code',
         {
           code: code.value
         }
@@ -70,7 +70,7 @@ async function confirm_code() {
     >
       <div class="flex items-center justify-center h-20 mt-10 md:mt-0">
         <div class="flex-none w-14 h-14 mr-2">
-          <img src="@/assets/ndparang_logo.png" class="h-14" alt="logo" />
+          <img src="@/assets/logo.png" class="h-14" alt="logo" />
         </div>
         <div class="flex items-center justify-center w-fit h-14">
           <a href="#" class="text-white font-semibold text-xl"
@@ -107,7 +107,7 @@ async function confirm_code() {
         <button
           type="button"
           @click="reset_password"
-          class="w-full text-white bg-[#00923f] hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-600 font-medium rounded-lg text-sm px-5 py-2.5 mt-8 text-center"
+          class="w-full text-white bg-[#1C1AAB] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-green-600 font-medium rounded-lg text-sm px-5 py-2.5 mt-8 text-center"
         >
           Reset your password
         </button>
@@ -135,7 +135,7 @@ async function confirm_code() {
         <button
           type="button"
           @click="confirm_code"
-          class="w-full text-white bg-[#00923f] hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-600 font-medium rounded-lg text-sm px-5 py-2.5 mt-8 text-center"
+          class="w-full text-white bg-[#1C1AAB] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-green-600 font-medium rounded-lg text-sm px-5 py-2.5 mt-8 text-center"
         >
           Confirm Code
         </button>

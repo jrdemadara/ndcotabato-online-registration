@@ -23,6 +23,9 @@ const refresh_token = localStorage.getItem('refresh_token')
 const currentTab = ref(1)
 const isEdit = ref('')
 
+const isLoading = ref(false)
+const isError = ref(false)
+
 const lastname = ref('')
 const firstname = ref('')
 const middlename = ref('')
@@ -103,84 +106,93 @@ const barangayOptions = ref([])
 
 // Populate Profile
 onMounted(async () => {
-  try {
-    const response = await axios.post(
-      'https://ndparang.info/api/v1/uri/profile',
-      {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-          'Content-Type': 'application/json'
-        }
+  isLoading.value = true
+  axios
+    .post('https://ndcotabato.info/api/v1/uri/profile', {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+        'Content-Type': 'application/json'
       }
-    )
-    h2_lastname.value = await response.data.profile[0].lastname
-    h2_firstname.value = await response.data.profile[0].firstname
-    h2_middlename.value = await response.data.profile[0].middlename
-    h2_extension.value = await response.data.profile[0].extension
-    h2_birthdate.value = await response.data.profile[0].birthdate
-    h2_gender.value = await response.data.profile[0].gender
-    h2_civilstatus.value = await response.data.profile[0].civilstatus
-    h2_religion.value = await response.data.profile[0].relname
-    h2_dialect.value = await response.data.profile[0].dianame
-    h2_origin.value = await response.data.profile[0].origin
-    h2_province.value = await response.data.profile[0].provDesc
-    h2_municipality.value = await response.data.profile[0].citymunDesc
-    h2_barangay.value = await response.data.profile[0].brgyDesc
-    h2_puroksitio.value = await response.data.profile[0].puroksitio
-    h2_fathersname.value = await response.data.profile[0].fathersname
-    h2_fathers_occupation.value = await response.data.profile[0].foccupation
-    h2_fathers_income.value = await response.data.profile[0].fmonincome
-    h2_mothersname.value = await response.data.profile[0].mothersname
-    h2_mothers_occupation.value = await response.data.profile[0].moccupation
-    h2_mothers_income.value = await response.data.profile[0].mmonincome
-    h2_parents_contact.value = await response.data.profile[0].parentscontact
-    h2_parents_address.value = await response.data.profile[0].parentsaddress
-    h2_noofsiblings.value = await response.data.profile[0].noofsiblings
-    h2_guardiansname.value = await response.data.profile[0].guardiansname
-    h2_guardians_contact.value = await response.data.profile[0].gcontact
-    h2_guardians_address.value = await response.data.profile[0].gaddress
-    h2_schoollast.value = await response.data.profile[0].schoollast
-    h2_schooladdress.value = await response.data.profile[0].schooladdress
-    h2_yeargraduated.value = await response.data.profile[0].yeargraduated
-    h2_average.value = await response.data.profile[0].average
-    h2_lrn.value = await response.data.profile[0].lrnno
-    h2_emailadd.value = await response.data.profile[0].emailadd
-    h2_contactno.value = await response.data.profile[0].contactno
-    h2_password.value = await response.data.profile[0].password
+    })
+    .then(function (response) {
+      //       AND addressprovinces.provCode = :province
+      // AND addresscitymuns.citymunCode = :municipality
+      // AND addressbrgys.brgyCode = :barangay
+      // AND dialects.diaserial = :dialect
+      // AND religions.relserial = :religion;
+      h2_lastname.value = response.data.profile[0].lastname
+      h2_firstname.value = response.data.profile[0].firstname
+      h2_middlename.value = response.data.profile[0].middlename
+      h2_extension.value = response.data.profile[0].extension
+      h2_birthdate.value = response.data.profile[0].birthdate
+      h2_gender.value = response.data.profile[0].gender
+      h2_civilstatus.value = response.data.profile[0].civilstatus
+      h2_religion.value = response.data.profile[0].relname
+      h2_dialect.value = response.data.profile[0].dianame
+      h2_origin.value = response.data.profile[0].origin
+      h2_province.value = response.data.profile[0].provDesc
+      h2_municipality.value = response.data.profile[0].citymunDesc
+      h2_barangay.value = response.data.profile[0].brgyDesc
+      h2_puroksitio.value = response.data.profile[0].puroksitio
+      h2_fathersname.value = response.data.profile[0].fathersname
+      h2_fathers_occupation.value = response.data.profile[0].foccupation
+      h2_fathers_income.value = response.data.profile[0].fmonincome
+      h2_mothersname.value = response.data.profile[0].mothersname
+      h2_mothers_occupation.value = response.data.profile[0].moccupation
+      h2_mothers_income.value = response.data.profile[0].mmonincome
+      h2_parents_contact.value = response.data.profile[0].parentscontact
+      h2_parents_address.value = response.data.profile[0].parentsaddress
+      h2_noofsiblings.value = response.data.profile[0].noofsiblings
+      h2_guardiansname.value = response.data.profile[0].guardiansname
+      h2_guardians_contact.value = response.data.profile[0].gcontact
+      h2_guardians_address.value = response.data.profile[0].gaddress
+      h2_schoollast.value = response.data.profile[0].schoollast
+      h2_schooladdress.value = response.data.profile[0].schooladdress
+      h2_yeargraduated.value = response.data.profile[0].yeargraduated
+      h2_average.value = response.data.profile[0].average
+      h2_lrn.value = response.data.profile[0].lrnno
+      h2_emailadd.value = response.data.profile[0].emailadd
+      h2_contactno.value = response.data.profile[0].contactno
+      h2_password.value = response.data.profile[0].password
 
-    lastname.value = await response.data.profile[0].lastname
-    firstname.value = await response.data.profile[0].firstname
-    middlename.value = await response.data.profile[0].middlename
-    extension.value = await response.data.profile[0].extension
-    birthdate.value = await response.data.profile[0].birthdate
-    origin.value = await response.data.profile[0].origin
-    puroksitio.value = await response.data.profile[0].puroksitio
-    fathersname.value = await response.data.profile[0].fathersname
-    foccupation.value = await response.data.profile[0].foccupation
-    fmonincome.value = await response.data.profile[0].fmonincome
-    mothersname.value = await response.data.profile[0].mothersname
-    moccupation.value = await response.data.profile[0].moccupation
-    mmonincome.value = await response.data.profile[0].mmonincome
-    parentscontact.value = await response.data.profile[0].parentscontact
-    parentsaddress.value = await response.data.profile[0].parentsaddress
-    noofsiblings.value = await response.data.profile[0].noofsiblings
-    guardiansname.value = await response.data.profile[0].guardiansname
-    gcontact.value = await response.data.profile[0].gcontact
-    gaddress.value = await response.data.profile[0].gaddress
-    schoollast.value = await response.data.profile[0].schoollast
-    schooladdress.value = await response.data.profile[0].schooladdress
-    yeargraduated.value = await response.data.profile[0].yeargraduated
-    average.value = await response.data.profile[0].average
-    lrnno.value = await response.data.profile[0].lrnno
-    emailadd.value = await response.data.profile[0].emailadd
-    contactno.value = await response.data.profile[0].contactno
-  } catch (error) {
-    console.error(error)
-  }
+      lastname.value = response.data.profile[0].lastname
+      firstname.value = response.data.profile[0].firstname
+      middlename.value = response.data.profile[0].middlename
+      extension.value = response.data.profile[0].extension
+      //birthdate.value = response.data.profile[0].birthdate
+      origin.value = response.data.profile[0].origin
+      puroksitio.value = response.data.profile[0].puroksitio
+      fathersname.value = response.data.profile[0].fathersname
+      foccupation.value = response.data.profile[0].foccupation
+      fmonincome.value = response.data.profile[0].fmonincome
+      mothersname.value = response.data.profile[0].mothersname
+      moccupation.value = response.data.profile[0].moccupation
+      mmonincome.value = response.data.profile[0].mmonincome
+      parentscontact.value = response.data.profile[0].parentscontact
+      parentsaddress.value = response.data.profile[0].parentsaddress
+      noofsiblings.value = response.data.profile[0].noofsiblings
+      guardiansname.value = response.data.profile[0].guardiansname
+      gcontact.value = response.data.profile[0].gcontact
+      gaddress.value = response.data.profile[0].gaddress
+      schoollast.value = response.data.profile[0].schoollast
+      schooladdress.value = response.data.profile[0].schooladdress
+      yeargraduated.value = response.data.profile[0].yeargraduated
+      average.value = response.data.profile[0].average
+      lrnno.value = response.data.profile[0].lrnno
+      emailadd.value = response.data.profile[0].emailadd
+      contactno.value = response.data.profile[0].contactno
+      isLoading.value = false
+      isError.value = false
+    })
+    .catch(function (error) {
+      console.log(error)
+      isLoading.value = false
+      isError.value = true
+    })
 
   try {
     const response = await axios.get(
-      'https://ndparang.info/api/v1/uri/province',
+      'https://ndcotabato.info/api/v1/uri/province',
       {
         headers: {
           'Content-Type': 'application/json'
@@ -202,7 +214,7 @@ onMounted(async () => {
 async function getMunicipality() {
   try {
     const response = await axios.post(
-      'https://ndparang.info/api/v1/uri/municipality',
+      'https://ndcotabato.info/api/v1/uri/municipality',
       {
         province: province.value,
         headers: {
@@ -221,7 +233,7 @@ async function getMunicipality() {
 async function getBarangay() {
   try {
     const response = await axios.post(
-      'https://ndparang.info/api/v1/uri/barangay',
+      'https://ndcotabato.info/api/v1/uri/barangay',
       {
         municipality: municipality.value,
         headers: {
@@ -240,7 +252,7 @@ async function getBarangay() {
 async function patch(data) {
   try {
     const response = await axios.patch(
-      'https://ndparang.info/api/v1/uri/profile',
+      'https://ndcotabato.info/api/v1/uri/profile',
       {
         field: isEdit.value,
         data: data,
@@ -261,7 +273,7 @@ async function patch(data) {
 async function patchPassword(data) {
   try {
     const response = await axios.patch(
-      'https://ndparang.info/api/v1/uri/resetpassword',
+      'https://ndcotabato.info/api/v1/uri/resetpassword',
       {
         password: data,
         headers: {
@@ -281,7 +293,7 @@ async function patchPassword(data) {
 async function patchAddress(province, municipality, barangay, purok) {
   try {
     const response = await axios.patch(
-      'https://ndparang.info/api/v1/uri/updateaddress',
+      'https://ndcotabato.info/api/v1/uri/updateaddress',
       {
         province: province,
         municipality: municipality,
@@ -305,7 +317,7 @@ async function patchAddress(province, municipality, barangay, purok) {
 async function logout() {
   try {
     const response = await axios.delete(
-      'https://ndparang.info/api/v1/uri/logout',
+      'https://ndcotabato.info/api/v1/uri/logout',
       {
         headers: {
           Authorization: `Bearer ${refresh_token}`,
@@ -334,16 +346,35 @@ async function logout() {
 }
 </style>
 <template>
-  <div class="bg-white">
+  <div class="relative bg-white">
+    <div
+      v-if="isLoading"
+      class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-5 backdrop-blur-sm"
+    >
+      <div
+        class="w-16 h-16 border-4 border-[#1C1AAB] border-dashed rounded-full animate-spin spinner"
+      ></div>
+    </div>
+
+    <div
+      v-if="isError"
+      class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-5 backdrop-blur-sm"
+    >
+      <h2 class="font-semibold text-red-500 text-lg text-center">
+        Something went wrong with the server <br />
+        Please try to reload.
+      </h2>
+    </div>
+
     <nav class="bg-gray-900 fixed top-0 w-full z-10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center md:justify-center h-20">
           <div class="flex-none w-14 h-14 mr-2">
-            <img src="@/assets/ndparang_logo.png" class="h-14" alt="logo" />
+            <img src="@/assets/logo.png" class="h-14" alt="logo" />
           </div>
           <div class="flex items-center w-screen h-14">
             <a href="#" class="text-white font-semibold text-xl"
-              >Notre Dame of Parang Inc.</a
+              >Notre Dame of Cotabato</a
             >
           </div>
           <div class="flex justify-end w-fit h-14">
@@ -351,7 +382,7 @@ async function logout() {
               <div class="hidden md:block lg:block flex justify-end w-56">
                 <h2 class="text-white">
                   Hello,
-                  <span class="text-[#00923f] normal-case"
+                  <span class="text-[#1C1AAB] normal-case"
                     >{{ firstname }}!</span
                   >
                 </h2>
@@ -408,11 +439,11 @@ async function logout() {
           <div class="flex">
             <button
               :class="{
-                'bg-[#00923f]': currentTab === 1,
+                'bg-[#1C1AAB]': currentTab === 1,
                 'bg-gray-200': currentTab != 1
               }"
               @click="currentTab = 1"
-              class="flex flex-grow items-center justify-center px-4 py-2 md:py-5 hover:bg-green-600 rounded-tl tab-button"
+              class="flex flex-grow items-center justify-center px-4 py-2 md:py-5 hover:bg-blue-600 rounded-tl tab-button"
             >
               <i>
                 <UserCircle
@@ -435,11 +466,11 @@ async function logout() {
 
             <button
               :class="{
-                'bg-[#00923f]': currentTab === 3,
+                'bg-[#1C1AAB]': currentTab === 3,
                 'bg-gray-200': currentTab != 3
               }"
               @click="currentTab = 3"
-              class="flex flex-grow items-center justify-center px-4 py-2 md:py-5 hover:bg-green-600 tab-button"
+              class="flex flex-grow items-center justify-center px-4 py-2 md:py-5 hover:bg-blue-600 tab-button"
             >
               <i>
                 <Users
@@ -462,11 +493,11 @@ async function logout() {
 
             <button
               :class="{
-                'bg-[#00923f]': currentTab === 4,
+                'bg-[#1C1AAB]': currentTab === 4,
                 'bg-gray-200': currentTab != 4
               }"
               @click="currentTab = 4"
-              class="flex flex-grow items-center justify-center px-4 py-4 md:py-5 hover:bg-green-600 tab-button"
+              class="flex flex-grow items-center justify-center px-4 py-4 md:py-5 hover:bg-blue-600 tab-button"
             >
               <i>
                 <School2
@@ -489,11 +520,11 @@ async function logout() {
 
             <button
               :class="{
-                'bg-[#00923f]': currentTab === 2,
+                'bg-[#1C1AAB]': currentTab === 2,
                 'bg-gray-200': currentTab != 2
               }"
               @click="currentTab = 2"
-              class="flex flex-grow items-center justify-center px-4 py-2 md:py-5 hover:bg-green-600 tab-button"
+              class="flex flex-grow items-center justify-center px-4 py-2 md:py-5 hover:bg-blue-600 tab-button"
             >
               <i>
                 <SquareEqual
@@ -516,11 +547,11 @@ async function logout() {
 
             <button
               :class="{
-                'bg-[#00923f]': currentTab === 5,
+                'bg-[#1C1AAB]': currentTab === 5,
                 'bg-gray-200': currentTab != 5
               }"
               @click="currentTab = 5"
-              class="flex flex-grow items-center justify-center px-4 py-4 md:py-5 hover:bg-green-600 tab-button"
+              class="flex flex-grow items-center justify-center px-4 py-4 md:py-5 hover:bg-blue-600 tab-button"
             >
               <i>
                 <Shield
@@ -570,7 +601,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(lastname)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -612,7 +643,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(firstname)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -656,7 +687,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(middlename)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -698,7 +729,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(extension)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -734,14 +765,13 @@ async function logout() {
                     <div class="flex">
                       <flat-pickr
                         v-model="birthdate"
-                        :config="config"
                         class="datepicker border-gray-400 focus:border-blue-500 focus:outline-none py-2 px-3 block w-full rounded-lg bg-slate-100 mr-3"
                         placeholder="Select birthdate"
                         name="date"
                       />
                       <button
                         @click="patch(birthdate)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -788,7 +818,7 @@ async function logout() {
 
                       <button
                         @click="patch(gender)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -838,7 +868,7 @@ async function logout() {
 
                       <button
                         @click="patch(civilstatus)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -891,7 +921,7 @@ async function logout() {
 
                       <button
                         @click="patch(relserial)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -943,7 +973,7 @@ async function logout() {
 
                       <button
                         @click="patch(diaserial)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -987,7 +1017,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(origin)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1095,7 +1125,7 @@ async function logout() {
                             puroksitio
                           )
                         "
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1146,7 +1176,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(fathersname)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1190,7 +1220,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(foccupation)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1234,7 +1264,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(fmonincome)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1278,7 +1308,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(mothersname)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1322,7 +1352,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(moccupation)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1366,7 +1396,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(mmonincome)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1410,7 +1440,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(parentscontact)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1454,7 +1484,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(parentsaddress)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1498,7 +1528,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(noofsiblings)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1542,7 +1572,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(guardiansname)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1586,7 +1616,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(gcontact)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1630,7 +1660,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(gaddress)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1675,7 +1705,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(schoollast)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1719,7 +1749,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(schooladdress)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1763,7 +1793,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(yeargraduated)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1805,7 +1835,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(average)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1848,7 +1878,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(lrnno)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1890,7 +1920,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(emailadd)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1932,7 +1962,7 @@ async function logout() {
                       />
                       <button
                         @click="patch(contactno)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
@@ -1974,7 +2004,7 @@ async function logout() {
                       />
                       <button
                         @click="patchPassword(password)"
-                        class="flex items-center place-content-center bg-transparent text-[#00923f] hover:underline hover:underline-offset-auto"
+                        class="flex items-center place-content-center bg-transparent text-[#1C1AAB] hover:underline hover:underline-offset-auto"
                       >
                         <CheckCircle2 class="w-8 h-8 mr-1" />
                       </button>
